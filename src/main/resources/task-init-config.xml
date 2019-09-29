@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	任务配置中心
+	id: class name
+	title: 任务名称
+	type: 任务类型， 1-定时任务 2-即时任务   默认2
+	startTime: 初次运行日期，支持指定时分秒和自定义
+		{16:30:00}: 表示下午4点30分开始运行任务
+		{W3|22:50:00},{W6|12:30:00}: 表示
+	interval: 运行间隔
+		支持模式化，w:星期 d:天  h:小时  m:分钟  s:秒  p毫秒
+		如：${1d}，表示每天运行一次
+ -->
+<tasks title="任务清单">
+	<default-classpath>me.belucky.easytool.task.impl</default-classpath>
+
+	<task id="TimeTaskDemo" title="定时任务Demo" type="1" startTime="18:30:00" interval="${5s}" />
+	<task id="InstantTaskDemo" title="即时任务Demo" type="2"/>
+ 
+</tasks>
