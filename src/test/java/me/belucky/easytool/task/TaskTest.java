@@ -4,6 +4,7 @@
  */
 package me.belucky.easytool.task;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -14,12 +15,22 @@ import org.junit.Test;
  */
 public class TaskTest {
 	
-	@Test
+	@Before
+	public void before() throws Exception {
+		TaskInitCenter.go();
+	}
+	
+//	@Test
 	public void test0() throws Exception {
 		TaskInitCenter.go();
 		while(true) {
 			
 		}
+	}
+	
+	@Test
+	public void testRunTask() throws Exception {
+		TaskInitCenter.runTask("InstantTaskDemo");
 	}
 
 }

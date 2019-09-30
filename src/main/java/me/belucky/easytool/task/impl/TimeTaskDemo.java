@@ -4,7 +4,7 @@
  */
 package me.belucky.easytool.task.impl;
 
-import me.belucky.easytool.task.timer.SimpleTimerTask;
+import me.belucky.easytool.task.AbstractTask;
 
 /**
  * Description: 定时任务的Demo
@@ -12,7 +12,7 @@ import me.belucky.easytool.task.timer.SimpleTimerTask;
  * @date 2019-09-29
  * @version 1.0
  */
-public class TimeTaskDemo extends SimpleTimerTask{
+public class TimeTaskDemo extends AbstractTask{
 
 	public TimeTaskDemo(String taskName) {
 		super(taskName);

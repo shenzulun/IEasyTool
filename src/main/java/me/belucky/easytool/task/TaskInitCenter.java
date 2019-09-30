@@ -59,15 +59,14 @@ public final class TaskInitCenter {
 			for(TaskDefinitionDTO taskDTO : taskList){
 				Class<?> cls = Class.forName(taskDTO.getTaskClassPath());
 				int taskType = taskDTO.getTaskType();
+				Constructor<?> constructor = cls.getConstructor(String.class);
+				AbstractTask task = (AbstractTask) constructor.newInstance(taskDTO.getTaskName());
 				if(taskType == ConstCode.TASK_TYPE_INSTANT) {
-					//一次性任务
-					Constructor<?> constructor = cls.getConstructor(String.class);
-					ITask onceTask = (ITask) constructor.newInstance(taskDTO.getTaskName());
-					onceTask.go();
+					//即时任务
+					task.go();
 				}else if(taskType == ConstCode.TASK_TYPE_TIMER) {
 					//定时任务
-					Constructor<?> constructor = cls.getConstructor(String.class);
-					SimpleTimerTask simpleTask = (SimpleTimerTask) constructor.newInstance(taskDTO.getTaskName());
+					SimpleTimerTask simpleTask = new SimpleTimerTask(task);
 					simpleTask.setTaskId(taskDTO.getTaskId());
 					timingTask(taskDTO, simpleTask);
 				}
@@ -121,7 +120,7 @@ public final class TaskInitCenter {
 	 * 解析定时任务的配置
 	 * @throws DocumentException 
 	 */
-	private static void taskInit() throws DocumentException{
+	private static void taskInit() throws Exception{
 		SAXReader saxReader = new SAXReader();
 		InputStream ins = Thread.currentThread().getContextClassLoader().getResourceAsStream("task-init-config.xml");
 		Document document;
@@ -148,6 +147,9 @@ public final class TaskInitCenter {
 				taskDTO.setStartTime(e.attributeValue("startTime"));
 				taskDTO.setInterval(e.attributeValue("interval"));
 				taskList.add(taskDTO);
+				if(taskMap.containsKey(id)) {
+					throw new Exception("task-init-config.xml内存在ID相同的task: " + id) ;
+				}
 				taskMap.put(id, taskDTO);
 			}
 		} catch (DocumentException e) {
@@ -163,19 +165,27 @@ public final class TaskInitCenter {
 	 */
 	public static void runTask(String taskId) throws Exception{
 		TaskDefinitionDTO taskDTO = taskMap.get(taskId);
+		runTask(taskDTO);
+	}
+	
+	/**
+	 * 运行任务
+	 * @param taskDTO
+	 * @throws Exception 
+	 */
+	public static void runTask(TaskDefinitionDTO taskDTO) throws Exception {
 		Class<?> cls;
 		try {
 			cls = Class.forName(taskDTO.getTaskClassPath());
 			int taskType = taskDTO.getTaskType();
+			Constructor<?> constructor = cls.getConstructor(String.class);
+			AbstractTask task = (AbstractTask) constructor.newInstance(taskDTO.getTaskName());
 			if(taskType == ConstCode.TASK_TYPE_INSTANT) {
-				//一次性任务
-				Constructor<?> constructor = cls.getConstructor(String.class);
-				ITask onceTask = (ITask) constructor.newInstance(taskDTO.getTaskName());
-				onceTask.go();
+				//即时任务
+				task.go();
 			}else if(taskType == ConstCode.TASK_TYPE_TIMER) {
-				Constructor<?> constructor = cls.getConstructor(String.class);
-				SimpleTimerTask simpleTask = (SimpleTimerTask) constructor.newInstance(taskDTO.getTaskName());
-				simpleTask.setTaskId(taskId);
+				SimpleTimerTask simpleTask = new SimpleTimerTask(task);
+				simpleTask.setTaskId(taskDTO.getTaskId());
 				//不能thread方式运行,不然取不到日志
 				simpleTask.run();   
 			}

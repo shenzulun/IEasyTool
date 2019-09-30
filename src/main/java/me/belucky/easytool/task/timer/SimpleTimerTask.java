@@ -7,9 +7,9 @@ package me.belucky.easytool.task.timer;
 import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import me.belucky.easytool.task.AbstractTask;
 import me.belucky.easytool.task.TaskInitCenter;
 import me.belucky.easytool.util.DateTimeUtils;
-
 
 /**
  * Description: 简单定时任务
@@ -17,9 +17,9 @@ import me.belucky.easytool.util.DateTimeUtils;
  * @date 2019-08-16
  * @version 1.0
  */
-public abstract class SimpleTimerTask extends TimerTask{
+public class SimpleTimerTask extends TimerTask{
 	protected Logger log = LoggerFactory.getLogger(super.getClass());
-	protected String taskName;
+	protected AbstractTask task;
 	
 	protected String taskId;
 	
@@ -27,23 +27,20 @@ public abstract class SimpleTimerTask extends TimerTask{
 	
 	protected String logLevel = "INFO";
 	
-	public SimpleTimerTask(String taskName){	
+	public SimpleTimerTask(AbstractTask task){	
 		super();
-		this.taskName = taskName;
-//		log.info("任务-["+taskName+"]运行中......");
+		this.task = task;
 	}
-	
-	public abstract void execute();
-	
+		
 	public void run(){
 		if("DEBUG".equals(logLevel.toUpperCase())){
-			log.debug("开始执行任务-> {}", taskName);
+			log.debug("开始执行任务-> {}", getTaskName());
 			log.debug("当前时间,[{}]", DateTimeUtils.getDateTimeNow());	
 		}else{
-			log.info("开始执行任务-> {}", taskName);
+			log.info("开始执行任务-> {}", getTaskName());
 			log.info("当前时间,[{}]", DateTimeUtils.getDateTimeNow());	
 		}
-		execute();
+		task.execute();
 		TaskInitCenter.refreshTaskStatus(taskId);
 	}
 	
@@ -53,16 +50,16 @@ public abstract class SimpleTimerTask extends TimerTask{
 	}
 	
 	public SimpleTimerTask setLogLevelDebug(){
-		logLevel = "DEBUG";
+		this.logLevel = "DEBUG";
 		return this;
 	}
-
+	
 	public String getTaskName() {
-		return taskName;
+		return task.getTaskName();
 	}
-
+	
 	public void setTaskName(String taskName) {
-		this.taskName = taskName;
+		task.setTaskName(taskName);
 	}
 
 	public String getTaskId() {

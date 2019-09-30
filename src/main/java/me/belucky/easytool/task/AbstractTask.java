@@ -43,6 +43,10 @@ public abstract class AbstractTask implements ITask{
 		return taskName;
 	}
 	
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
+	}
+
 	public <T> T getObjectFromCacheInit(String key, T t) {
 		T v = CacheUtils.getCache(key);
 		if(v == null) {
