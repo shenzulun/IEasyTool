@@ -18,13 +18,23 @@ import java.util.Date;
 public class DateTimeUtils {
 	
 	/**
+	 * 获取日期格式化信息
+	 * @param date
+	 * @param pattern
+	 * @return
+	 */
+	public static String getDateStr(Date date, String pattern){
+		DateFormat df = new SimpleDateFormat(pattern);
+		return df.format(date);
+	}
+	
+	/**
 	 * 日期转换成字符串
 	 * @param date
 	 * @return
 	 */
 	public static String getDate(Date date){
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		return df.format(date);
+		return getDateStr(date, "yyyy-MM-dd");
 	}
 	
 	/**
@@ -33,8 +43,7 @@ public class DateTimeUtils {
 	 * @return
 	 */
 	public static String getDateTime(Date date){
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return df.format(date);
+		return getDateStr(date, "yyyy-MM-dd HH:mm:ss");
 	}
 	
 	/**
@@ -42,7 +51,7 @@ public class DateTimeUtils {
 	 * @return
 	 */
 	public static String getToday() {
-		return getDate(new Date());
+		return getDateStr(new Date(), "yyyyMMdd");
 	}
 	
 	/**
@@ -53,6 +62,26 @@ public class DateTimeUtils {
 		return getDateTime(new Date());
 	}
 	
+	/**
+	 * 获取当前的时分秒
+	 * @return
+	 */
+	public static String getNowTime() {
+		return getDateStr(new Date(), "HHmmss");
+	}
+	
+	/**
+	 * 获取最近的指定日期
+	 * <p>
+	 * 	例子：1. getEarliestDate(Calendar, -1, 20, 0, 0)
+	 *   		如果现在是19点，则返回的是当天的20点；如果现在是21点，则返回的是下一天的20点
+	 * @param currentDate
+	 * @param dayOfWeek
+	 * @param hourOfDay
+	 * @param minuteOfHour
+	 * @param secondOfMinute
+	 * @return
+	 */
 	public static Calendar getEarliestDate(Calendar currentDate, int dayOfWeek, int hourOfDay, 
 			int minuteOfHour, int secondOfMinute){
 		int currentWeekOfYear = currentDate.get(Calendar.WEEK_OF_MONTH);
@@ -127,7 +156,11 @@ public class DateTimeUtils {
 	public static long getDelay(String firstRunPattern){
 		return getDelay(Calendar.getInstance(), firstRunPattern);
 	}
-	
+	/**
+	 * 获取指定日期与现在的毫秒差
+	 * @param expectDate
+	 * @return
+	 */
 	public static long getDelay(Date expectDate){
 		Calendar currentDate = Calendar.getInstance();
 		return expectDate.getTime() - currentDate.getTime().getTime();

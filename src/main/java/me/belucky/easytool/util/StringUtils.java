@@ -172,4 +172,32 @@ public class StringUtils {
 		}
 		return cnt;
 	}
+	
+	/**
+	 * 数字转换成指定长度的字符串 
+	 * <p>
+	 * <code>intToStringBySpecifiedLength(4,3,true,"0")</code><br/>
+	 * output: "004"
+	 * </p>
+	 * @param source
+	 * @param targetLength
+	 * @param isAppendLeft
+	 * @param appendFlag
+	 * @return
+	 */
+	public static String intToStringBySpecifiedLength(int source, int targetLength, boolean isAppendLeft, String appendFlag) {
+		StringBuffer buff = new StringBuffer();
+		if(!isAppendLeft) {
+			buff.append(source);
+		}
+		String intString = String.valueOf(source);
+		int curr = intString.length();
+		while(curr++ < targetLength) {
+			buff.append(appendFlag);
+		}
+		if(isAppendLeft) {
+			buff.append(source);
+		}
+		return buff.toString();
+	}
 }
