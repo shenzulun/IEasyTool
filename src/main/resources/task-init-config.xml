@@ -17,8 +17,9 @@
 		<task id="" classpath="a.b.c" />
 	-->
 	<default-classpath>me.belucky.easytool.task.impl</default-classpath>
-
+    
+    <!-- 
 	<task id="TimeTaskDemo" title="定时任务Demo" type="1" startTime="10:56:05" interval="${5s}" />
 	<task id="InstantTaskDemo" title="即时任务Demo" type="2"/>
- 
+    -->
 </tasks>

@@ -20,7 +20,7 @@ public abstract class AbstractParser<T> implements IParser<T>{
 	protected List<String> listCond = null;
 	protected Map<String, String> mapCond = null;
 
-	public T parse(String input) throws Exception {
+	public T parse(String input){
 		if(input == null){
 			return null;
 		}
@@ -35,7 +35,7 @@ public abstract class AbstractParser<T> implements IParser<T>{
 	 * @param input
 	 * @return
 	 */
-	public abstract T handle(String input) throws Exception;
+	public abstract T handle(String input);
 	
 	/**
 	 * 解析前文本适配转换
@@ -55,20 +55,11 @@ public abstract class AbstractParser<T> implements IParser<T>{
 		this.listCond = listCond;
 	}
 	
-//	public <P extends IParser<T>> P setListCond(List<String> listCond) {
-//		this.listCond = listCond;
-//		return (P) this;
-//	}
-	
 	/**
 	 * 设置map条件
 	 * @param mapCond
 	 * @return
 	 */
-//	public <P extends IParser<T>> P setMapCond(Map<String, String> mapCond) {
-//		this.mapCond = mapCond;
-//		return (P) this;
-//	}
 	public void setMapCond(Map<String, String> mapCond){
 		this.mapCond = mapCond;
 	}

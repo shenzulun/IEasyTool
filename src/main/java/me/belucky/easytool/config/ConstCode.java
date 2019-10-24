@@ -35,4 +35,28 @@ public class ConstCode {
  	 * 默认的文件字符集
  	 */
  	public static final String DEFAULT_FILE_ENCODE = "UTF-8";
+ 	/**
+	 * 是否从内存中读取FTP相关配置
+	 */
+	public static final String IS_READ_FROM_CACHE = "read_cache";
+	/**
+	 * 内存中读取FTP key
+	 */
+	public static final String READ_CACHE_KEY = "read_cache_key";
+	/**
+	 * 服务器地址
+	 */
+	public static final String REMOTE_HOST = "remote_host";
+	/**
+	 * 端口
+	 */
+	public static final String REMOTE_PORT = "remote_port";
+	/**
+	 * 服务器用户
+	 */
+	public static final String REMOTE_USERNAME = "remote_username";
+	/**
+	 * 服务器密码
+	 */
+	public static final String REMOTE_PASSWD = "remote_passwd";
 }

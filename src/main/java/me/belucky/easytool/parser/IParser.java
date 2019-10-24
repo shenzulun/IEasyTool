@@ -20,7 +20,7 @@ public interface IParser<T> {
 	 * @param input
 	 * @return
 	 */
-	public T parse(String input) throws Exception;
+	public T parse(String input);
 	
 	public void setListCond(List<String> listCond);
 	

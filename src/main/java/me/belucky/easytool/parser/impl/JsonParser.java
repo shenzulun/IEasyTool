@@ -25,20 +25,17 @@ public class JsonParser extends AbstractParser<Object>{
 		this.cls = cls;
 	}
 
-	public Object handle(String input) throws Exception{
+	public Object handle(String input){
 		Object result = null;
 		ObjectMapper objectMapper = new ObjectMapper();		
 		try {
 			result = objectMapper.readValue(input, cls);
 		} catch (JsonParseException e) {
 			log.error("",e);
-			throw e;
 		} catch (JsonMappingException e) {
 			log.error("",e);
-			throw e;
 		} catch (IOException e) {
 			log.error("",e);
-			throw e;
 		}
 		return result;
 	}

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.belucky</groupId>
   <artifactId>IEasyTool</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.2</version>
   <name>IEasyTool</name>
   <packaging>jar</packaging>
   <description>happy work</description>
@@ -62,6 +62,36 @@
 	    <version>1.1</version>
 	    <scope>provided</scope>
 	</dependency>
+	
+	<dependency>
+	    <groupId>javax.servlet</groupId>
+	    <artifactId>javax.servlet-api</artifactId>
+	    <version>4.0.1</version>
+	    <scope>provided</scope>
+	</dependency>
+	
+	<dependency>
+	    <groupId>it.sauronsoftware.ftp4j</groupId>
+	    <artifactId>ftp4j</artifactId>
+	    <version>1.7.2</version>
+	    <scope>system</scope> 
+        <systemPath>${project.basedir}/lib/ftp4j-1.7.2.jar</systemPath> 
+	</dependency>
+	
+	<dependency>
+	    <groupId>ch.ethz.ganymed</groupId>
+	    <artifactId>ganymed-ssh2</artifactId>
+	    <version>build210</version>
+	    <scope>provided</scope>
+	</dependency>
+	
+	
+	<dependency>
+       <groupId>com.jfinal</groupId>
+       <artifactId>jfinal</artifactId>
+       <version>4.6</version>
+       <scope>provided</scope>
+    </dependency> 
 	
 	<dependency>
 	    <groupId>junit</groupId>

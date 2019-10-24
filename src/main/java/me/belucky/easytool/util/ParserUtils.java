@@ -29,7 +29,7 @@ public class ParserUtils {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static String replaceString(String input, Map<String, String> mapCond) throws Exception {
+	public static String replaceString(String input, Map<String, String> mapCond){
 		IParser<String> parser =  ParserFactory.getParser(ParserEnum.REPLACE_STRING);
 		parser.setMapCond(mapCond);
 		return parser.parse(input);
@@ -44,7 +44,7 @@ public class ParserUtils {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static Long stringToLong(String input) throws Exception {
+	public static Long stringToLong(String input){
 		IParser<Long> parser =  ParserFactory.getParser(ParserEnum.NUMBER);
 		return parser.parse(input);
 	}
@@ -60,7 +60,7 @@ public class ParserUtils {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static Date stringToDate(String input) throws Exception {
+	public static Date stringToDate(String input) {
 		IParser<Date> parser =  ParserFactory.getParser(ParserEnum.DATE);
 		return parser.parse(input);
 	}
