@@ -2,14 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.belucky</groupId>
   <artifactId>IEasyTool</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <name>IEasyTool</name>
   <packaging>jar</packaging>
   <description>happy work</description>
   
   <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <java.version>1.8</java.version>
+      <java.version>1.7</java.version>
   </properties>
   
   <dependencies>			

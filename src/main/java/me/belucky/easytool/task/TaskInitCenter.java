@@ -174,6 +174,9 @@ public final class TaskInitCenter {
 	 * @throws Exception 
 	 */
 	public static void runTask(TaskDefinitionDTO taskDTO) throws Exception {
+		if(taskDTO == null || taskDTO.getTaskClassPath() == null) {
+			return;
+		}
 		Class<?> cls;
 		try {
 			cls = Class.forName(taskDTO.getTaskClassPath());

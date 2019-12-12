@@ -31,11 +31,21 @@ public class XmlUtils {
      * Java对象转换成XML
      * 默认编码UTF-8 
      * @param obj 
-     * @param writer 
      * @return  
      */
     public static String convertObjectToXml(Object obj) {
     	return convertObjectToXml(obj, "UTF-8");
+    }
+    
+    /** 
+     * Java对象转换成XML
+     * 默认编码UTF-8 
+     * @param obj 
+     * @param isFormattedOutput  是否格式化 
+     * @return  
+     */
+    public static String convertObjectToXml(Object obj, boolean isFormattedOutput) {
+    	return convertObjectToXml(obj, "UTF-8", isFormattedOutput);
     }
 
     /** 
@@ -71,6 +81,34 @@ public class XmlUtils {
             JAXBContext context = JAXBContext.newInstance(obj.getClass());
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, encoding);
+            if(isIgnoreXmlHead) {
+            	marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+            }
+            StringWriter writer = new StringWriter();
+            marshaller.marshal(obj, writer);
+            result = writer.toString();
+        } catch (Exception e) {
+        	log.error("Object转XML出错...",e);
+        }
+
+        return result;
+    }
+    
+    /**
+     * Java对象转换成XML
+     * @param obj
+     * @param encoding
+     * @param isIgnoreXmlHead 是否忽略头部
+     * @param isFormattedOutput 是否格式化
+     * @return
+     */
+    public static String convertObjectToXml(Object obj, String encoding, boolean isIgnoreXmlHead, boolean isFormattedOutput) {
+        String result = null;
+        try {
+            JAXBContext context = JAXBContext.newInstance(obj.getClass());
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, isFormattedOutput);
             marshaller.setProperty(Marshaller.JAXB_ENCODING, encoding);
             if(isIgnoreXmlHead) {
             	marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);

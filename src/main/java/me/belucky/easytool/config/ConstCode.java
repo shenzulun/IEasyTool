@@ -24,6 +24,10 @@ public class ConstCode {
  	 */
  	public static final String LINE_SEPARATOR = "|";
  	/**
+ 	 * 分隔符 RS
+ 	 */
+ 	public static final char SEPARATOR_0X1E = 0x1E;
+ 	/**
  	 * 任务类型-定时任务
  	 */
  	public static final int TASK_TYPE_TIMER = 1;

@@ -200,4 +200,57 @@ public class StringUtils {
 		}
 		return buff.toString();
 	}
+	
+	/**
+	 * 判断字符串是否在指定的数组内
+	 * @param source	源字符串
+	 * @param target	目标数组
+	 * @param ignoreCapital	是否忽略大小写
+	 * @return
+	 */
+	public static boolean isExsit(String source, String[] target, boolean ignoreCapital) {
+		if(source == null || target == null || target.length == 0) {
+			return false;
+		}
+		boolean isExist = false;
+		if(ignoreCapital) {
+			source = source.toUpperCase();
+		}
+		for(String s : target) {
+			if(ignoreCapital) {
+				s = s.toUpperCase();
+			}
+			if(source.equals(s)) {
+				isExist = true;
+				break;
+			}
+		}
+		return isExist;
+	}
+	
+	/**
+	 * 判断字符串是否在指定的数组内
+	 * 默认区分大小写
+	 * @param source
+	 * @param target
+	 * @return
+	 */
+	public static boolean isExsit(String source, String[] target) {
+		return isExsit(source, target, false);
+	}
+	
+	/**
+	 * 判断是否中文字符
+	 * @param c
+	 * @return
+	 */
+	public static boolean isChineseChar(char c){
+		boolean isExist = false;
+		if(c >= '\u4e00' && c <= '\u9fa5'){
+			isExist = true;
+		}else if(c >= '\uf900' && c <= '\ufa2d'){
+			isExist = true;
+		}
+		return isExist;
+	}
 }
