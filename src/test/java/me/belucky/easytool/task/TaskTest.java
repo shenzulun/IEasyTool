@@ -20,7 +20,7 @@ public class TaskTest {
 		TaskInitCenter.go();
 	}
 	
-//	@Test
+	@Test
 	public void test0() throws Exception {
 		TaskInitCenter.go();
 		while(true) {
@@ -28,7 +28,7 @@ public class TaskTest {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void testRunTask() throws Exception {
 		TaskInitCenter.runTask("InstantTaskDemo");
 	}

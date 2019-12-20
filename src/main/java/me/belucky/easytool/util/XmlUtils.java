@@ -45,7 +45,7 @@ public class XmlUtils {
      * @return  
      */
     public static String convertObjectToXml(Object obj, boolean isFormattedOutput) {
-    	return convertObjectToXml(obj, "UTF-8", isFormattedOutput);
+    	return convertObjectToXml(obj, "UTF-8", false, isFormattedOutput);
     }
 
     /** 

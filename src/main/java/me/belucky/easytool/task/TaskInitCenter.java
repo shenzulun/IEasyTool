@@ -23,6 +23,7 @@ import me.belucky.easytool.task.timer.SimpleTimerTask;
 import me.belucky.easytool.task.timer.SimpleTimerTaskFactory;
 import me.belucky.easytool.util.DateTimeUtils;
 import me.belucky.easytool.util.ParserUtils;
+import me.belucky.easytool.util.StringUtils;
 
 /**
  * 功能说明: 任务初始化中心
@@ -93,25 +94,33 @@ public final class TaskInitCenter {
 		 * 16:57:00
 		 * ${W3|22:50:00},{W6|12:30:00}
 		 */
-		if(startTime.startsWith("{")){
-			String[] customStartArr = startTime.split(",");
-			int cnt = 0;
-			StringBuffer buff = new StringBuffer();
-			for(String st : customStartArr){
-				Date expectDate = ParserUtils.stringToDate(st);
-				task.setTaskName(oldTaskName + ++cnt);
-				SimpleTimerTaskFactory.schedule(task, DateTimeUtils.getDelay(expectDate), ParserUtils.stringToLong(interval),DateTimeUtils.getDateTime(expectDate));
-				if(cnt != 1){
-					buff.append(" | ");
+		if(StringUtils.isNotNull(startTime)) {
+			if(startTime.startsWith("{")){
+				String[] customStartArr = startTime.split(",");
+				int cnt = 0;
+				StringBuffer buff = new StringBuffer();
+				for(String st : customStartArr){
+					Date expectDate = ParserUtils.stringToDate(st);
+					task.setTaskName(oldTaskName + ++cnt);
+					SimpleTimerTaskFactory.schedule(task, DateTimeUtils.getDelay(expectDate), ParserUtils.stringToLong(interval),DateTimeUtils.getDateTime(expectDate));
+					if(cnt != 1){
+						buff.append(" | ");
+					}
+					buff.append(DateTimeUtils.getDateTime(expectDate));
 				}
-				buff.append(DateTimeUtils.getDateTime(expectDate));
+				taskDTO.setFirstExpectStart(buff.toString());
+			}else{
+				long delay = DateTimeUtils.getDelay(startTime);
+				SimpleTimerTaskFactory.schedule(task, delay, ParserUtils.stringToLong(interval),startTime);
+				taskDTO.setFirstExpectStart(DateTimeUtils.getDate(new Date()) + " " + startTime);
 			}
-			taskDTO.setFirstExpectStart(buff.toString());
-		}else{
-			long delay = DateTimeUtils.getDelay(startTime);
+		}else {
+			long delay = 1000;
+			startTime = DateTimeUtils.getDateStr(new Date(), "HH:mm:ss");
 			SimpleTimerTaskFactory.schedule(task, delay, ParserUtils.stringToLong(interval),startTime);
 			taskDTO.setFirstExpectStart(DateTimeUtils.getDate(new Date()) + " " + startTime);
 		}
+		
 		taskDTO.setIntervalExpr(interval);
 		taskMap.put(taskDTO.getTaskId(), taskDTO);
 	}

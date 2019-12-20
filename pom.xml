@@ -85,6 +85,13 @@
 	    <scope>provided</scope>
 	</dependency>
 	
+	<dependency>
+	    <groupId>com.squareup.okhttp3</groupId>
+	    <artifactId>okhttp</artifactId>
+	    <version>3.10.0</version>
+	    <scope>provided</scope>
+	</dependency>
+	
 	
 	<dependency>
        <groupId>com.jfinal</groupId>
