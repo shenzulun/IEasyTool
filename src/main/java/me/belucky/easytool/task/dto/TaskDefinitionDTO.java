@@ -47,6 +47,10 @@ public class TaskDefinitionDTO {
 	 * 最近运行日期
 	 */
 	private String lastRunDateStr;
+	/**
+	 * startTime为空时生效
+	 */
+	private String delay;
 	
 	public TaskDefinitionDTO(){}
 	
@@ -127,6 +131,14 @@ public class TaskDefinitionDTO {
 
 	public void setInterval(String interval) {
 		this.interval = interval;
+	}
+
+	public String getDelay() {
+		return delay;
+	}
+
+	public void setDelay(String delay) {
+		this.delay = delay;
 	}
 	
 }

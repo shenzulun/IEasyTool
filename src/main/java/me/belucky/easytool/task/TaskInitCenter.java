@@ -116,6 +116,10 @@ public final class TaskInitCenter {
 			}
 		}else {
 			long delay = 1000;
+			String delayStr = taskDTO.getDelay();
+			if(StringUtils.isNotBlank(delayStr)) {
+				delay = ParserUtils.stringToLong(delayStr);
+			}
 			startTime = DateTimeUtils.getDateStr(new Date(), "HH:mm:ss");
 			SimpleTimerTaskFactory.schedule(task, delay, ParserUtils.stringToLong(interval),startTime);
 			taskDTO.setFirstExpectStart(DateTimeUtils.getDate(new Date()) + " " + startTime);
@@ -155,6 +159,7 @@ public final class TaskInitCenter {
 				taskDTO.setTaskType(Integer.valueOf(taskType));
 				taskDTO.setStartTime(e.attributeValue("startTime"));
 				taskDTO.setInterval(e.attributeValue("interval"));
+				taskDTO.setDelay(e.attributeValue("delay"));
 				taskList.add(taskDTO);
 				if(taskMap.containsKey(id)) {
 					throw new Exception("task-init-config.xml内存在ID相同的task: " + id) ;

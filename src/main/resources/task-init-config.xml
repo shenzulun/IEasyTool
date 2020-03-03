@@ -10,6 +10,7 @@
 	interval: 运行间隔
 		支持模式化，w:星期 d:天  h:小时  m:分钟  s:秒  p毫秒
 		如：${1d}，表示每天运行一次
+	delay: 延迟时间，当startTime为空时生效，表示在应用启动后的指定时间开始运行任务
  -->
 <tasks title="任务清单">
 	<!-- 
@@ -19,7 +20,7 @@
 	<default-classpath>me.belucky.easytool.task.impl</default-classpath>
     
     
-	<task id="TimeTaskDemo" title="定时任务Demo" type="1" interval="${5s}" />
+	<task id="TimeTaskDemo" title="定时任务Demo" type="1" delay="${1m}" interval="${5s}" />
 	<!-- 
 	<task id="InstantTaskDemo" title="即时任务Demo" type="2"/>
     -->
