@@ -24,6 +24,12 @@ public class TextCompareUtilTest {
 	
 	@Before
 	public void init() {
+		bankAliasMap.put("省", "");
+		bankAliasMap.put("市", "");
+		bankAliasMap.put("区", "");
+		bankAliasMap.put("县", "");
+		bankAliasMap.put("支行营业部", "支行");
+		
 		bankAliasMap.put("工行", "工商银行");
 		bankAliasMap.put("农行", "农业银行");
 		bankAliasMap.put("中行", "中国银行");
@@ -32,6 +38,8 @@ public class TextCompareUtilTest {
 		bankAliasMap.put("招行", "招商银行");
 		bankAliasMap.put("台行", "台州银行");
 		bankAliasMap.put("农商", "农村商业");
+		bankAliasMap.put("农村合作", "农村商业");
+		bankAliasMap.put("农村信用合作联社", "农村商业银行");
 		tc = new TextCompareUtil();
 	}
 	
@@ -50,12 +58,30 @@ public class TextCompareUtilTest {
 	
 	@Test
 	public void test1() throws IOException {
-		System.out.println(tc.calcMatchingRate("丹东农村商业银行股份有限公司合作区支行", dataClean("黄岩区农村信用合作银行西城支行")));
-		System.out.println(tc.calcMatchingRate("浙江台州黄岩农村商业银行股份有限公司西城支行", dataClean("黄岩区农村信用合作银行西城支行")));
-//		System.out.println(tc.calcMatchingRate("中国工商银行台州市椒江区支行椒北支行", dataClean("工行台州椒江椒北支行")));		
+		System.out.println(tc.calcMatchingRate(dataClean("丹东农村商业银行股份有限公司合作区支行"), dataClean("黄岩区农村信用合作银行西城支行")));
+		System.out.println(tc.calcMatchingRate(dataClean("浙江台州黄岩农村商业银行股份有限公司西城支行"), dataClean("黄岩区农村信用合作银行西城支行")));
+		//System.out.println(tc.calcMatchingRate(dataClean("中国工商银行台州市椒江区支行椒北支行"), dataClean("工行台州椒江椒北支行")));		
+
+		System.out.println(tc.calcMatchingRate(dataClean("上海农商银行惠南支行"), dataClean("临海市农商银行城南支行")));
+		System.out.println(tc.calcMatchingRate(dataClean("浙江临海农村商业银行股份有限公司城南支行"), dataClean("临海市农商银行城南支行")));
+
+		System.out.println(tc.calcMatchingRate(dataClean("浙江省农村信用社联合社"), dataClean("黄岩区农村信用合作联社高桥信用社")));
+		System.out.println(tc.calcMatchingRate(dataClean("浙江台州黄岩农村商业银行股份有限公司高桥支行"), dataClean("黄岩区农村信用合作联社高桥信用社")));
+
+		System.out.println(tc.calcMatchingRate(dataClean("中国工商银行股份有限公司台州椒江支行阳光分理处"), dataClean("工商银行温岭支行万昌分理处")));
+		System.out.println(tc.calcMatchingRate(dataClean("中国工商银行股份有限公司温岭支行万昌分理处"), dataClean("工商银行温岭支行万昌分理处")));
+
+		System.out.println(tc.calcMatchingRate(dataClean("台州银行股份有限公司黄岩支行"), dataClean("中国民生银行股份公司黄岩支行")));
+		System.out.println(tc.calcMatchingRate(dataClean("中国民生银行股份有限公司台州黄岩小微企业专营支行"), dataClean("中国民生银行股份公司黄岩支行")));
+
+		System.out.println(tc.calcMatchingRate(dataClean("浙江台州黄岩农村商业银行股份有限公司营业部"), dataClean("台州银行总行营业部")));
+		System.out.println(tc.calcMatchingRate(dataClean("台州银行股份有限公司"), dataClean("台州银行总行营业部")));
+
+		System.out.println(tc.calcMatchingRate(dataClean("中国农业银行台州市章安支行"), dataClean("农行台州市椒江支行")));
+		System.out.println(tc.calcMatchingRate(dataClean("中国农业银行台州椒江区支行"), dataClean("农行台州市椒江支行")));
 		
-		System.out.println(tc.calcMatchingRate("上海农商银行惠南支行", dataClean("临海市农商银行城南支行")));
-		System.out.println(tc.calcMatchingRate("浙江临海农村商业银行股份有限公司城南支行", dataClean("临海市农商银行城南支行")));
+		System.out.println(tc.calcMatchingRate(dataClean("中国建设银行临海支行营业部"), dataClean("中国建设银行椒江支行营业部")));
+		System.out.println(tc.calcMatchingRate(dataClean("中国建设银行台州椒江支行"), dataClean("中国建设银行椒江支行营业部")));
 	}
 
 }

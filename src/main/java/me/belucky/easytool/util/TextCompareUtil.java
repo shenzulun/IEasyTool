@@ -27,9 +27,9 @@ public class TextCompareUtil {
 	
 	private SmartChineseAnalyzer smartChineseAnalyzer = new SmartChineseAnalyzer();
     
-    private List<String> smallWeightWords = Arrays.asList("中国","有限公司","股份","浙江省","公司","浙江","区","市","县");
+    private List<String> smallWeightWords = Arrays.asList("中国","有限公司","股份","浙江省","公司","浙江","区","市","县","商业","银行","企业","专营","清算","中心","资金");
     
-    private double smallWeight = 0.3D;
+    private double smallWeight = 0.1D;
     
     public TextCompareUtil() {
     	
@@ -92,7 +92,7 @@ public class TextCompareUtil {
     
     private double oneWayMatch(String text1,String text2) {
         try {
-            Set<String> set = new HashSet<String>(10);
+            Set<String> set = new HashSet<String>(16);
             TokenStream tokenStream = smartChineseAnalyzer.tokenStream("field", text1);
             CharTermAttribute charTermAttribute = tokenStream.getAttribute(CharTermAttribute.class);
             tokenStream.reset();
