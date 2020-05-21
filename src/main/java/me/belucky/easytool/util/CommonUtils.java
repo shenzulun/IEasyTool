@@ -7,7 +7,11 @@ package me.belucky.easytool.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -79,12 +83,12 @@ public class CommonUtils {
 			Class<?> cls = target.getClass();
 			if("set".equals(methodPrefix)){
 				//set方法  先获取该字段的属性
-				Field field = cls.getDeclaredField(fieldName);
-				Method m = target.getClass().getDeclaredMethod(methodName, field.getType());
+				Field field = getField(cls, fieldName);
+				Method m = target.getClass().getMethod(methodName, field.getType());
 				Object v = m.invoke(target, newValue);
 				t = (T)v;
 			}else if("get".equals(methodPrefix)){
-				Method m = target.getClass().getDeclaredMethod(methodName);
+				Method m = target.getClass().getMethod(methodName);
 				Object v = m.invoke(target);
 				t = (T)v;
 			}
@@ -98,10 +102,42 @@ public class CommonUtils {
 			log.error("",e);
 		} catch (InvocationTargetException e) {
 			log.error("",e);
-		} catch (NoSuchFieldException e) {
-			log.error("",e);
 		}
 		return t;
+	}
+	
+	/**
+	 * 获取class中的指定字段
+	 * @param clazz
+	 * @param fieldName
+	 * @return
+	 */
+	public static Field getField(Class<?> clazz, String fieldName) {
+		Field field = null;
+		Field[] fields = getAllFields(clazz);
+		for(Field f : fields) {
+			if(fieldName.equals(f.getName())) {
+				field = f;
+				break;
+			}
+		}
+		return field;
+	}
+	
+	/**
+	 * 获取class及父类的所有字段
+	 * @param clazz
+	 * @return
+	 */
+	public static Field[] getAllFields(Class<?> clazz){
+		List<Field> fieldList = new ArrayList<Field>();
+		while (clazz != null){
+			fieldList.addAll(new ArrayList<>(Arrays.asList(clazz.getDeclaredFields())));
+			clazz = clazz.getSuperclass();
+		}
+		Field[] fields = new Field[fieldList.size()];
+		fieldList.toArray(fields);
+		return fields;
 	}
 	
 	/**
@@ -132,5 +168,34 @@ public class CommonUtils {
 		return arr;
 	}
 	
+	/**
+	 * 睡眠
+	 * @param microSeconds
+	 */
+	public static void sleep(long microSeconds) {
+		try {
+			Thread.sleep(microSeconds);
+		} catch (InterruptedException e) {
+			log.error("", e);
+		}
+	}
+	
+	/**
+	 * 生成流水号
+	 * @return
+	 */
+	public static String generateSerno() {
+		//年月日时分秒毫秒  17位
+		String prefix = DateTimeUtils.getDateStr(new Date(), "yyyyMMddHHmmssSSS");
+		//再加三位随机数
+		Random rand = new Random();
+		int r = rand.nextInt(1000);
+		if(r == 0) {
+			r = 1;
+		}
+		//转成3位字符串, 不足左边补0
+		String suffix = StringUtils.intToStringBySpecifiedLength(r, 3, true, "0");
+		return prefix + suffix;
+	}
 	
 }

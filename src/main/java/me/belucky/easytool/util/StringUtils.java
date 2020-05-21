@@ -4,6 +4,7 @@
  */
 package me.belucky.easytool.util;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 /**
@@ -252,5 +253,66 @@ public class StringUtils {
 			isExist = true;
 		}
 		return isExist;
+	}
+	
+	/**
+	 * double类型转指定长度的字符串
+	 * 去除小数点，左边补0
+	 * @param d
+	 * @return
+	 */
+	public static String doubleToString(double d, int length) {
+		DecimalFormat df = new DecimalFormat("#.00");
+		String str = df.format(d);
+		String str1 = str.replaceAll("\\.", "");
+		StringBuilder buff = new StringBuilder();
+		int curr = str1.length();
+		while(curr++ < length) {
+			buff.append("0");
+		}
+		buff.append(str1);
+		return buff.toString();
+	}
+	
+	/**
+	 * 字符串清理
+	 * 去除左边的空格和0
+	 * @param str
+	 * @return
+	 */
+	public static String trimLeftWithout0(String str) {
+		int offset = 0;
+		char[] arr = str.toCharArray();
+		for(int i=0,len=arr.length;i<len;i++) {
+			char c = arr[i];
+			if(c != ' ' && c != '0') {
+				offset = i;
+				break;
+			}
+		}
+		String v = String.copyValueOf(arr, offset, arr.length - offset);
+		return v;
+	}
+	
+	/**
+	 * 字符串转int
+	 * @param str
+	 * @return
+	 */
+	public static int toInt(String str) {
+		String v = trimLeftWithout0(str);
+		return Integer.parseInt(v);
+	}
+	
+	/**
+	 * 字符串转double
+	 * 默认末位为分
+	 * @param str
+	 * @return
+	 */
+	public static double toDouble(String str) {
+		str = str.substring(0, str.length() - 2) + "." + str.substring(str.length() - 2);
+		String v = trimLeftWithout0(str);
+		return Double.parseDouble(v);
 	}
 }

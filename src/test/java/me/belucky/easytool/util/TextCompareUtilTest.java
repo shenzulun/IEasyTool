@@ -5,7 +5,7 @@
 package me.belucky.easytool.util;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import org.junit.Before;
@@ -19,17 +19,34 @@ import org.junit.Test;
  */
 public class TextCompareUtilTest {
 	
-	private Map<String, String> bankAliasMap = new HashMap<String, String>();
+	private Map<String, String> bankAliasMap = new LinkedHashMap<String, String>();
 	private TextCompareUtil tc = null;
 	
 	@Before
 	public void init() {
+		//1. 全称替换
+		bankAliasMap.put("黄岩区农村合作联社城关信用社", "浙江台州黄岩农村商业银行股份有限公司清算中心");
+		bankAliasMap.put("黄岩区农村信用合作联社城关信用社", "浙江台州黄岩农村商业银行股份有限公司清算中心");
+		
+		bankAliasMap.put("椒江区农村合作银行", "浙江台州椒江农村商业银行股份有限公司清算中心");
+		bankAliasMap.put("农业银行路桥杨府庙支行", "中国农业银行股份有限公司台州分行清算中心");
+		bankAliasMap.put("黄岩区农村合作联社城关信用社", "浙江台州黄岩农村商业银行股份有限公司清算中心");
+		
+		bankAliasMap.put("台州银行总行营业部", "台州银行股份有限公司");
+		bankAliasMap.put("台州泰隆商业银行\\(泰隆城市信用社石曲支行\\)", "浙江泰隆商业银行清算中心");
+		bankAliasMap.put("中国农业银行洪家分行", "中国农业银行股份有限公司台州分行清算中心");
+		
+		//2. 去除省市区关键字
+		bankAliasMap.put("\\(", "");
+		bankAliasMap.put("\\)", "");
 		bankAliasMap.put("省", "");
 		bankAliasMap.put("市", "");
 		bankAliasMap.put("区", "");
 		bankAliasMap.put("县", "");
 		bankAliasMap.put("支行营业部", "支行");
+		bankAliasMap.put("分支行", "支行");
 		
+		//3. 行名简称
 		bankAliasMap.put("工行", "工商银行");
 		bankAliasMap.put("农行", "农业银行");
 		bankAliasMap.put("中行", "中国银行");
@@ -40,6 +57,7 @@ public class TextCompareUtilTest {
 		bankAliasMap.put("农商", "农村商业");
 		bankAliasMap.put("农村合作", "农村商业");
 		bankAliasMap.put("农村信用合作联社", "农村商业银行");
+
 		tc = new TextCompareUtil();
 	}
 	
@@ -82,6 +100,15 @@ public class TextCompareUtilTest {
 		
 		System.out.println(tc.calcMatchingRate(dataClean("中国建设银行临海支行营业部"), dataClean("中国建设银行椒江支行营业部")));
 		System.out.println(tc.calcMatchingRate(dataClean("中国建设银行台州椒江支行"), dataClean("中国建设银行椒江支行营业部")));
+		
+		System.out.println(tc.calcMatchingRate(dataClean("浙江泰隆商业银行股份有限公司台州科技支行"), dataClean("台州泰隆商业银行(泰隆城市信用社石曲支行)")));
+		System.out.println(tc.calcMatchingRate(dataClean("浙江泰隆商业银行清算中心"), dataClean("台州泰隆商业银行(泰隆城市信用社石曲支行)")));
+		
+		System.out.println(tc.calcMatchingRate(dataClean("中国工商银行股份有限公司临海东城支行"), dataClean("工商银行临海市支行")));
+		System.out.println(tc.calcMatchingRate(dataClean("中国工商银行台州市临海市支行"), dataClean("工商银行临海市支行")));
+		
+		System.out.println(tc.calcMatchingRate(dataClean("中国银行股份有限公司台州椒江花园支行"), dataClean("中国银行股份有限公司台州市椒江支行")));
+		System.out.println(tc.calcMatchingRate(dataClean("中国银行椒江支行"), dataClean("中国银行股份有限公司台州市椒江支行")));
 	}
 
 }

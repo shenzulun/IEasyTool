@@ -87,6 +87,13 @@ public class TextCompareUtil {
     	showTextAnalyzer(text1);
         showTextAnalyzer(text2);
         //return oneWayMatch(text1, text2) + oneWayMatch(text2, text1);
+//        double r1 = oneWayMatch(text1, text2);
+//        double r2 = oneWayMatch(text2, text1);
+//        if((r1 <= 0.01 && r2 <= 0.15) || (r2 <= 0.01 && r1 <= 0.15)) {
+//        	return Math.max(1 - r1, 1 - r2);
+//        }else {
+//        	return 1 - r1 - r2;
+//        }
         return 1 - (oneWayMatch(text1, text2) + oneWayMatch(text2, text1));
     }
     
