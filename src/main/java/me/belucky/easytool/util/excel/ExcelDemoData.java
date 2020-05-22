@@ -4,8 +4,11 @@
  */
 package me.belucky.easytool.util.excel;
 
+import org.apache.poi.ss.usermodel.BorderStyle;
+
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ContentStyle;
 
 /**
  * Description: excel的demo数据
@@ -13,6 +16,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
  * @date 2020-04-14
  * @version 1.0
  */
+//@ContentStyle(borderLeft=BorderStyle.THIN,borderRight=BorderStyle.THIN,borderTop=BorderStyle.THIN,borderBottom=BorderStyle.THIN)
 public class ExcelDemoData {
 	
 	@ExcelIgnore

@@ -4,13 +4,15 @@
  */
 package me.belucky.easytool.util.excel;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.metadata.WriteSheet;
+import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
+
 import me.belucky.easytool.util.StringUtils;
 
 /**
@@ -42,27 +44,46 @@ public class ExcelUtils {
 			log.error("sheet页内容不能为空...");
 			return;
 		}
-		ExcelWriter excelWriter = null;
+		
+		ExcelWriterBuilder builder = EasyExcel.write(excelName);
+		
+		HorizontalCellStyleStrategy horizontalCellStyleStrategy = excelModel.getHorizontalCellStyleStrategy();
+		if(horizontalCellStyleStrategy != null) {
+			builder.registerWriteHandler(horizontalCellStyleStrategy);
+		}
+		
 		String templateName = excelModel.getTemplateName();
 		if(StringUtils.isNotNull(templateName)) {
-			excelWriter = EasyExcel.write(excelName).withTemplate(templateName).build();
-		}else {
-			excelWriter = EasyExcel.write(excelName).build();
+			builder.withTemplate(templateName);
 		}
+		ExcelWriter excelWriter = builder.build();
+		
 		for(int i=0,len=sheets.size();i<len;i++) {
 			ExcelSheetModel sheetModel = sheets.get(i);
 			Class<?> className = sheetModel.getDataClass();
 			if(sheetModel.getData() != null && sheetModel.getData().size() > 0) {
 				className = sheetModel.getData().get(0).getClass();
 			}
-			WriteSheet writeSheet = EasyExcel.writerSheet(i, sheetModel.getSheetName()).head(className).build();
-            excelWriter.write(sheetModel.getData(), writeSheet);
+			WriteSheet writeSheet = null;
+			if(StringUtils.isNotNull(templateName)) {
+				writeSheet = EasyExcel.writerSheet(i, sheetModel.getSheetName()).build();
+				excelWriter.fill(sheetModel.getData(), writeSheet);
+			}else {
+				writeSheet = EasyExcel.writerSheet(i, sheetModel.getSheetName()).head(className).build();
+				excelWriter.write(sheetModel.getData(), writeSheet);
+			}
 		}
 		excelWriter.finish();
 	}
 	
-	public static void readExcel(String fileName) {
+	/**
+	 * 读取Excel信息
+	 * @param fileName
+	 * @return
+	 */
+	public static ExcelModel readExcel(String fileName) {
 		
+		return null;
 	}
 
 }

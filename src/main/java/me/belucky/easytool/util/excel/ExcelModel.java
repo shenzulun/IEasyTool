@@ -6,6 +6,9 @@ package me.belucky.easytool.util.excel;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import com.alibaba.excel.write.metadata.style.WriteCellStyle;
+import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
 
 /**
  * Description: Excel模型
@@ -27,6 +30,10 @@ public class ExcelModel {
 	 * 模板名字
 	 */
 	private String templateName;
+	/**
+	 * 表格样式
+	 */
+	private HorizontalCellStyleStrategy horizontalCellStyleStrategy;
 	
 	public ExcelModel() {}
 	
@@ -79,6 +86,30 @@ public class ExcelModel {
 		model.setSheets(list);
 		return model;
 	}
+	
+	public ExcelModel setCellStyle(HorizontalCellStyleStrategy horizontalCellStyleStrategy) {
+		this.horizontalCellStyleStrategy = horizontalCellStyleStrategy;
+		return this;
+	}
+	
+	public ExcelModel setCommonCellStyle() {
+		// 头的策略
+        WriteCellStyle headWriteCellStyle = new WriteCellStyle();
+        headWriteCellStyle.setBorderTop(BorderStyle.THIN);
+        headWriteCellStyle.setBorderBottom(BorderStyle.THIN);
+        headWriteCellStyle.setBorderLeft(BorderStyle.THIN);
+        headWriteCellStyle.setBorderRight(BorderStyle.THIN);
+        
+        // 内容的策略
+        WriteCellStyle contentWriteCellStyle = new WriteCellStyle();
+        contentWriteCellStyle.setBorderTop(BorderStyle.THIN);
+        contentWriteCellStyle.setBorderBottom(BorderStyle.THIN);
+        contentWriteCellStyle.setBorderLeft(BorderStyle.THIN);
+        contentWriteCellStyle.setBorderRight(BorderStyle.THIN);
+        
+        this.horizontalCellStyleStrategy = new HorizontalCellStyleStrategy(headWriteCellStyle, contentWriteCellStyle);
+		return this;
+	}
 
 	public String getFileName() {
 		return fileName;
@@ -104,6 +135,13 @@ public class ExcelModel {
 		this.templateName = templateName;
 		return this;
 	}
-	
+
+	public HorizontalCellStyleStrategy getHorizontalCellStyleStrategy() {
+		return horizontalCellStyleStrategy;
+	}
+
+	public void setHorizontalCellStyleStrategy(HorizontalCellStyleStrategy horizontalCellStyleStrategy) {
+		this.horizontalCellStyleStrategy = horizontalCellStyleStrategy;
+	}
 	
 }

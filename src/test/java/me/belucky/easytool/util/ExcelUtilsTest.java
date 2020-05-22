@@ -20,17 +20,18 @@ import me.belucky.easytool.util.excel.ExcelUtils;
  */
 public class ExcelUtilsTest {
 	
-//	@Test
+	@Test
 	public void testWrite(){
 		List<ExcelDemoData> demoDataList = Lists.newArrayList();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1000; i++) {
 			ExcelDemoData data = new ExcelDemoData();
 			data.setId(1);
 			data.setKhh("khh" + i);
 			data.setKhmc("khmc" + i);
 			demoDataList.add(data);
         }
-		ExcelModel excelModel = ExcelModel.build("C:/Users/shenzl/Desktop/demo-easyexcel-20200415.xlsx", "sheet1", demoDataList);
+		ExcelModel excelModel = ExcelModel.build("C:/Users/shenzl/Desktop/mix/excel/demo-easyexcel-" + System.currentTimeMillis() + ".xlsx", "sheet1", demoDataList)
+										  .setCommonCellStyle();
 		ExcelUtils.writeExcel(excelModel);
 	}
 	
@@ -50,22 +51,40 @@ public class ExcelUtilsTest {
 			sheetList.add(new ExcelSheetModel("sheet-" + a, demoDataList));
 		}
 		
-		ExcelModel excelModel = ExcelModel.build("C:/Users/shenzl/Desktop/demo-easyexcel-20200415-m.xlsx", sheetList);
+		ExcelModel excelModel = ExcelModel.build("C:/Users/shenzl/Desktop/mix/excel/demo-easyexcel-20200415-m.xlsx", sheetList);
 		ExcelUtils.writeExcel(excelModel);
 	}
 	
-	@Test
+//	@Test
 	public void testWriteWithTemplate(){
 		List<ExcelDemoData> demoDataList = Lists.newArrayList();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 10000; i++) {
 			ExcelDemoData data = new ExcelDemoData();
 			data.setId(1);
 			data.setKhh("khh" + i);
 			data.setKhmc("khmc" + i);
 			demoDataList.add(data);
         }
-		ExcelModel excelModel = ExcelModel.build("C:/Users/shenzl/Desktop/excel/demo-easyexcel-template.xlsx", "sheet1", demoDataList)
-										  .setTemplateName("C:/Users/shenzl/Desktop/excel/template_cust.xlsx");
+		List<ExcelSheetModel> sheets = Lists.newArrayList();
+		
+		ExcelSheetModel model1 = new ExcelSheetModel();
+		model1.setSheetName("客户信息1");
+		model1.setData(demoDataList);
+		model1.setDataClass(ExcelDemoData.class);
+		sheets.add(model1);
+		
+		ExcelSheetModel model2 = new ExcelSheetModel();
+		model2.setSheetName("客户信息2");
+		model2.setData(demoDataList);
+		model2.setDataClass(ExcelDemoData.class);
+		sheets.add(model2);
+		
+		ExcelModel excelModel = ExcelModel.build("C:/Users/shenzl/Desktop/mix/excel/demo-easyexcel-" + System.currentTimeMillis() + ".xlsx", sheets)
+										  .setTemplateName("C:/Users/shenzl/Desktop/mix/excel/template_cust.xlsx")
+										  .setCommonCellStyle();
+		
+//		ExcelModel excelModel = ExcelModel.build("C:/Users/shenzl/Desktop/mix/excel/demo-easyexcel-template.xlsx", "sheet1", demoDataList)
+//										  .setTemplateName("C:/Users/shenzl/Desktop/mix/excel/template_cust.xlsx");
 		ExcelUtils.writeExcel(excelModel);
 	}
 }
